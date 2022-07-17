@@ -1,9 +1,17 @@
 #pragma once
+#include <cstddef>
 #include <sstream>
 #include <iomanip>
+#include <vector>
+#include <functional>
 #include "shitrndr/src/shitrndr.h"
 #include "cumt_vec.h"
 
+namespace cumt
+{
+	struct Thing;
+	struct ThingSet;
+}
 namespace cumt::common
 {
 	template <typename T>
@@ -27,4 +35,7 @@ namespace cumt::common
 	inline float frand() { return float(std::rand())/float(RAND_MAX); }
 
 	void renderFPS(v2i pos);
+
+	void destroyIn(Thing* target, float delay);
+	void act(ThingSet* ts, std::function<void()> action, float life = -1, std::function<void()> on_death = [](){});
 }
