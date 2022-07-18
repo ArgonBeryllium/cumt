@@ -1,3 +1,6 @@
+#include "cumt_aabb.h"
+#include "cumt_render.h"
+#include "cumt_things.h"
 #include "shitrndr/src/shitrndr.h"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL.h>
@@ -6,24 +9,16 @@ using namespace shitrndr;
 using namespace cumt;
 
 ThingSet set;
+Thing2D* a, *b;
 
-Animation<v2f>* anim;
 void gameStart()
 {
 	RenderData::loadFont("res/unifont.ttf", 12);
 	WindowProps::setLockType(WindowProps::CUTOFF);
 
 	Thing2D::view_scale = .5;
-	set.instantiate(new Thing2D());
-
-	std::map<float, Keyframe<v2f>> frames;
-	frames[0.f] = {v2f()};
-	frames[1.f] = {v2f(2, 0)};
-	frames[2.f] = {v2f(-2, 0), easings::easeInOutElastic};
-	frames[3.f] = {v2f(0, -4), easings::easeOutElasticSoft};
-	frames[4.f] = {v2f(), easings::easeOutBounce};
-	anim = new Animation<v2f>(&((Thing2D*)set.get(0))->pos, frames);
-	anim->loop = 1;
+	a = set.instantiate(new Thing2D());
+	b = set.instantiate(new Thing2D({}, {3, 2}));
 }
 void gameKeyDown(const SDL_Keycode& key)
 {
@@ -35,42 +30,26 @@ void gameKeyDown(const SDL_Keycode& key)
 			break;
 	}
 }
-void renderEasing(v2i pos, float(*easing)(float), float cutoff = 1, SDL_Colour col = {255,255,255,255})
-{
-	v2i pp = pos;
-	for(float i = 0; i != 50; i++)
-	{
-		if(i/50 < cutoff) SetColour(col);
-		else SetColour({});
-		v2i cp = {pos.x+(int)i, pos.y+int(easing(i/50)*50)};
-		SDL_RenderDrawLine(ren, pp.x, pp.y, cp.x, cp.y);
-		pp = cp;
-	}
-}
 void gameLoop()
 {
 	set.update();
-	anim->pace = 2;
-	anim->update();
 
 	render::pattern::checkerBoard(0,0,30);
 	set.render();
 
-	size_t id = anim->getCurrentID();
-	float pt = anim->getPair(id-1).first;
-	std::pair<float, Keyframe<v2f>> ck = anim->getPair(id);
-
-	renderEasing({10, 30}, ck.second.easing, (anim->time-pt)/(ck.first-pt));
-	common::renderFPS({});
-	render::text({0,16},common::to_string_with_precision(FD::delta,10));
-
-	//int w = WindowProps::getWidth(), h = WindowProps::getHeight();
-	//render::text_cached({1*w/4, h/3}, "abc", {.col = {000,255,255}});
-	//render::text_cached({2*w/4, h/3}, "abc", {.col = {255,000,255}});
-	//render::text_cached({3*w/4, h/3}, "abc", {.col = {255,255,000}});
-	//render::text_cached({1*w/4, h/2}, "abcdef@", {.col = {000,255,255}});
-	//render::text_cached({2*w/4, h/2}, "abcdef@", {.col = {255,000,255}});
-	//render::text_cached({3*w/4, h/2}, "abcdef@", {.col = {255,255,000}});
+	a->pos = Thing2D::scrToSpace(Input::getMP());
+	auto in = aabb::getOverlap(a->getRect(), b->getRect());
+	auto in2 = aabb::getOverlap(a, b);
+	if(in2)
+	{
+		SetColour({255,0,255,255});
+		if(in) FillRect(*in);
+		SetColour({255,255,0,255});
+		v2i pos = Thing2D::spaceToScr(in2->first);
+		v2i siz = in2->second*Thing2D::getScalar();
+		FillRect({pos.x, pos.y, siz.x, siz.y});
+	}
+	aabb::resolveOverlaps(a, b);
 }
 
 int CUMT_MULP_MAIN()

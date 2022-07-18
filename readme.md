@@ -13,4 +13,4 @@ This is less of an engine, and more of a framework, as I wanted to try something
 - [ ] Render masks
 ### Refactors
 - [ ] Replace pointer types in functions with optional return values with Maybe monads
-- [ ] Replace AABB methods for v2fs and Things in order to increase accuracy
+- [x] Replace AABB methods for v2fs and Things in order to increase accuracy
