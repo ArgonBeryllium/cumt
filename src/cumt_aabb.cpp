@@ -2,14 +2,11 @@
 #include <utility>
 using namespace cumt;
 
-SDL_Rect* aabb::getOverlap(const SDL_Rect &a, const SDL_Rect &b)
+std::optional<SDL_Rect> aabb::getOverlap(const SDL_Rect &a, const SDL_Rect &b)
 {
-	SDL_Rect* out = new SDL_Rect();
-	if(!SDL_IntersectRect(&a, &b, out))
-	{
-		delete out;
-		return 0;
-	}
+	SDL_Rect out;
+	if(!SDL_IntersectRect(&a, &b, &out))
+		return {};
 	return out;
 }
 
