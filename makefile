@@ -22,6 +22,7 @@ test-win: $(wildcard src/*)
 
 LIB_SRC=$(wildcard src/cumt*.cpp)
 LIB_BIN=bin/lib/libcumt.so
+LIB_BIN_STATIC=bin/lib/libcumt.a
 
 lib: $(LIB_BIN)
 
@@ -30,6 +31,14 @@ $(LIB_BIN): $(wildcard src/cumt*)
 	$(CXX) $(LIB_SRC) -c $(LIBS) $(CXX_FLAGS) -fPIC
 	mv *.o bin/lib
 	$(CXX) -shared bin/lib/*.o $(LIBS) -o $(LIB_BIN)
+
+lib_static: $(LIB_BIN_STATIC)
+
+$(LIB_BIN_STATIC): $(wildcard src/cumt*)
+	[ -e bin/lib ] || mkdir -p bin/lib
+	$(CXX) $(LIB_SRC) -c $(LIBS) $(CXX_FLAGS) -fPIC
+	mv *.o bin/lib
+	ar rc $(LIB_BIN_STATIC) bin/lib/*.o
 
 install: lib
 	sudo cp bin/lib/libcumt.so /usr/lib/
