@@ -2,27 +2,34 @@ SHELL=/bin/bash
 
 CXX=clang++
 LIBS=-lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer
-CXX_FLAGS=--std=c++17 -O3
+CXX_FLAGS=--std=c++17 -g
 
-test: src/*
+TEST_SRC=$(wildcard src/*.cpp)
+TEST_BIN=bin/test
+
+test: $(TEST_BIN)
+
+$(TEST_BIN): $(wildcard src/*)
 	[ -e bin ] || mkdir bin
-	$(CXX) src/*.cpp -c $(CXX_FLAGS)
-	mv *.o bin/
-	$(CXX) bin/*.o $(LIBS) $(CXX_FLAGS) -o bin/test
+	$(CXX) $(TEST_SRC) $(LIBS) $(CXX_FLAGS) -o $(TEST_BIN)
 
 MINGW=x86_64-w64-mingw32-g++
 MINGW_FLAGS=-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -O3
 
-test-win: src/*
+test-win: $(wildcard src/*)
 	[ -e bin ] || mkdir bin
-	$(MINGW) src/*.cpp $(LIBS) $(CXX_FLAGS) $(MINGW_FLAGS) -o bin/test.exe
+	$(MINGW) $(TEST_SRC) $(LIBS) $(CXX_FLAGS) $(MINGW_FLAGS) -o bin/test.exe
 
+LIB_SRC=$(wildcard src/cumt*.cpp)
+LIB_BIN=bin/lib/libcumt.so
 
-lib: src/cumt*
-	[ -e bin/lib ] || mkdir bin/lib
-	$(CXX) src/cumt*.cpp -c $(LIBS) $(CXX_FLAGS) -fPIC
+lib: $(LIB_BIN)
+
+$(LIB_BIN): $(wildcard src/cumt*)
+	[ -e bin/lib ] || mkdir -p bin/lib
+	$(CXX) $(LIB_SRC) -c $(LIBS) $(CXX_FLAGS) -fPIC
 	mv *.o bin/lib
-	$(CXX) -shared bin/lib/*.o $(LIBS) -o bin/lib/libcumt.so
+	$(CXX) -shared bin/lib/*.o $(LIBS) -o $(LIB_BIN)
 
 install: lib
 	sudo cp bin/lib/libcumt.so /usr/lib/
