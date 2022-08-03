@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <math.h>
 #include <inttypes.h>
 #include <map>
@@ -36,6 +37,6 @@ struct InitParams
 };
 void quickInit(int w = 960, int h = 540, const InitParams& ip = {});
 void start();
-inline void (*onLoop)();
-inline void (*onKey)(const SDL_Keycode& key);
+inline std::function<void()> onLoop;
+inline std::function<void(const SDL_Keycode& key)> onKey;
 }
