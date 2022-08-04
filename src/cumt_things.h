@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include <SDL2/SDL.h>
+#include "cumt_compat.h"
 #include "shitrndr/src/shitrndr.h"
 #include "cumt_fd.h"
 #include "cumt_vec.h"
@@ -136,7 +137,7 @@ struct Sprite2D : Thing2D
 	{
 		SDL_Rect d = getRect();
 		SDL_Point centre {int(scl.x*Thing2D::view_scale*Thing2D::unit_pix_size*anchor_point.x), int(scl.y*Thing2D::view_scale*Thing2D::unit_pix_size*anchor_point.y)};
-		SDL_RenderCopyEx(shitrndr::ren, tex, src, &d, angle*180./M_PIf32, &centre, flip);
+		SDL_RenderCopyEx(shitrndr::ren, tex, src, &d, angle*180./M_PI, &centre, flip);
 	}
 };
 

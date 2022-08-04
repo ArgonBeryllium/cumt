@@ -1,9 +1,11 @@
-#include <SDL2/SDL_image.h>
 #include <cstddef>
 #include <unordered_map>
-#include "shitrndr/src/shitrndr.h"
 #include <string>
 #include <utility>
+#include <SDL2/SDL_image.h>
+
+#include "cumt_compat.h"
+#include "shitrndr/src/shitrndr.h"
 #include "cumt_render.h"
 
 using namespace cumt;
@@ -33,7 +35,7 @@ void render::texture_with_td(SDL_Texture* t, v2i pos, const TextData& td)
 	pos -= siz*td.anchor;
 	SDL_Rect r = {pos.x, pos.y, int(siz.x), int(siz.y)};
 	SDL_Point c = {int(siz.x*td.anchor.x), int(siz.y*td.anchor.y)};
-	SDL_RenderCopyEx(ren, t, 0, &r, td.angle*180./M_PIf32, &c, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(ren, t, 0, &r, td.angle*180./M_PI, &c, SDL_FLIP_NONE);
 }
 SDL_Texture* render::text(v2i pos, const char* text, const TextData& td)
 {

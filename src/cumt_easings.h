@@ -1,5 +1,6 @@
 #pragma once
-#include <cmath> 
+#include "cumt_compat.h"
+#include <cmath>
 
 // formulas from https://easings.net
 namespace cumt::easings
@@ -8,12 +9,12 @@ inline float linear(float x) { return x; }
 
 inline float easeOutElastic(float x)
 {
-	constexpr static float c4 = (2 * M_PIf32) / 3;
+	constexpr static float c4 = (2 * M_PI) / 3;
 	return x == 0 ? 0 : x == 1 ? 1 : pow(2, -10 * x) * sin((x * 10 - 0.75) * c4) + 1;
 }
 inline float easeOutElasticSoft(float x)
 {
-	constexpr static float c4 = (M_PIf32) / 3;
+	constexpr static float c4 = (M_PI) / 3;
 	return x == 0 ? 0 : x == 1 ? 1 : pow(2, -10 * x) * sin((x * 10 - 0.75) * c4) + 1;
 }
 inline float easeInElastic(float x)
@@ -26,7 +27,7 @@ inline float easeInElasticSoft(float x)
 }
 inline float easeInOutElastic(float x)
 {
-	constexpr static float c5 = (2 * M_PIf32) / 4.5;
+	constexpr static float c5 = (2 * M_PI) / 4.5;
 
 	return x == 0 ? 0 : x == 1 ? 1
 	: x < 0.5

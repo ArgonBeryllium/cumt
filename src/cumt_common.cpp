@@ -1,7 +1,7 @@
 #include "cumt_common.h"
 #include "cumt_render.h"
 #include "cumt_things.h"
-#include <cmath>
+#include "cumt_compat.h"
 #include <cstddef>
 #include <stack>
 #include <algorithm>
