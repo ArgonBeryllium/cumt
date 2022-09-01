@@ -73,7 +73,7 @@ void noise(int x, int y, float bias, int seed = 5, int s = 1);
 namespace effect
 {
 void init();
-void aberrate(v2i r = {-1,0}, v2i g = {0,0}, v2i b = {1,0}, SDL_Texture* source = shitrndr::WindowProps::renProxy, SDL_Texture* target = shitrndr::WindowProps::renProxy, SDL_Rect rect = shitrndr::WindowProps::getSizeRect());
+void aberrate(v2i r = {-1,0}, v2i g = {0,0}, v2i b = {1,0}, SDL_Texture* source = shitrndr::WindowProps::_renProxy, SDL_Texture* target = shitrndr::WindowProps::_renProxy, SDL_Rect rect = shitrndr::WindowProps::getSizeRect());
 };
 }
 }

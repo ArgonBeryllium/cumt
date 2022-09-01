@@ -202,17 +202,17 @@ void render::effect::aberrate(v2i r, v2i g, v2i b, SDL_Texture* source, SDL_Text
 	SDL_SetTextureColorMod(source, 255, 0, 0);
 	rect.x = r.x;
 	rect.y = r.y;
-	Copy(WindowProps::renProxy, rect);
+	Copy(WindowProps::_renProxy, rect);
 
 	SDL_SetTextureColorMod(source, 0, 255, 0);
 	rect.x = g.x;
 	rect.y = g.y;
-	Copy(WindowProps::renProxy, rect);
+	Copy(WindowProps::_renProxy, rect);
 
 	SDL_SetTextureColorMod(source, 0, 0, 255);
 	rect.x = b.x;
 	rect.y = b.y;
-	Copy(WindowProps::renProxy, rect);
+	Copy(WindowProps::_renProxy, rect);
 
 	SDL_SetTextureColorMod(source, 255, 255, 255);
 	SDL_SetTextureBlendMode(source, SDL_BLENDMODE_BLEND);
