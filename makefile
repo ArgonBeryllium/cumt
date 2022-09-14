@@ -36,7 +36,7 @@ LIB_BIN_STATIC=bin/lib/libcumt.a
 
 lib: $(LIB_BIN)
 
-$(LIB_BIN): $(wildcard src/cumt*)
+$(LIB_BIN): $(wildcard src/cumt*) src/shitrndr/src/shitrndr.h
 	[ -e bin/lib ] || mkdir -p bin/lib
 	$(CXX) $(LIB_SRC) -c $(LIBS) $(CXX_FLAGS) -fPIC
 	mv *.o bin/lib
@@ -44,7 +44,7 @@ $(LIB_BIN): $(wildcard src/cumt*)
 
 lib_static: $(LIB_BIN_STATIC)
 
-$(LIB_BIN_STATIC): $(wildcard src/cumt*)
+$(LIB_BIN_STATIC): $(wildcard src/cumt*) src/shitrndr/src/shitrndr.h
 	[ -e bin/lib ] || mkdir -p bin/lib
 	$(CXX) $(LIB_SRC) -c $(LIBS) $(CXX_FLAGS) -fPIC
 	mv *.o bin/lib
