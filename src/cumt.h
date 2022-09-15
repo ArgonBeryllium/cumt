@@ -7,6 +7,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "shitrndr/src/shitrndr.h"
 
+#include "cumt_compat.h"
 #include "cumt_logging.h"
 #include "cumt_fd.h"
 #include "cumt_vec.h"
@@ -17,12 +18,6 @@
 #include "cumt_animation.h"
 #include "cumt_easings.h"
 #include "cumt_aabb.h"
-
-#if defined _WIN32 || defined __CYGWIN__
-#define CUMT_MULP_MAIN WinMain
-#else
-#define CUMT_MULP_MAIN main
-#endif
 
 namespace cumt
 {
