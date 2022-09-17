@@ -35,14 +35,14 @@ std::optional<std::pair<v2f, v2f>> aabb::getOverlap(const Thing2D *a, const Thin
 	if(!yo) return {};
 	return std::make_pair(v2f{xo->first, yo->first}, v2f{xo->second-xo->first, yo->second-yo->first});
 }
-inline bool aabb::getOverlap(const SDL_Rect &a, const v2i &b)
+bool aabb::getOverlap(const SDL_Rect &a, const v2i &b)
 {
 	return b.x > a.x
 		&& b.y > a.y
 		&& b.x < a.x+a.w
 		&& b.y < a.y+a.h;
 }
-inline bool aabb::getOverlap(const Thing2D *a, const v2f &b)
+bool aabb::getOverlap(const Thing2D *a, const v2f &b)
 {
 	return b.x > a->pos.x
 		&& b.y > a->pos.y
